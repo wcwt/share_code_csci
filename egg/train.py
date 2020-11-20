@@ -6,4 +6,9 @@ from tensorflow.keras import layers
 
 file = open("../../source_file/csci_data/SR-ARE-train/names_onehots.pickle","rb")
 data = pickle.load(file)
-print(data)
+
+# we want to sep the onehot and names
+onthot = data["onehots"]
+name = data["names"]
+
+print(onthot[1])
