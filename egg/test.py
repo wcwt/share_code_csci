@@ -12,7 +12,7 @@ data = pickle.load(file)
 # we want to sep the onehot and names
 onehot = data["onehots"]
 
-model = tf.keras.models.load_model('my_model')
+model = tf.keras.models.load_model("model/model")
 predict = model.predict(onehot)
 
 

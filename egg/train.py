@@ -38,6 +38,6 @@ model.compile(optimizer = optimizers,
 # train model
 model.fit(onehot,toxic,epochs=1,shuffle=True,batch_size=20) # batch_size ==> 20% data
 
-model.save("my_model")
+model.save("model/model")
 loss,acc = model.evaluate(onehot,toxic)
 print(loss,acc)
