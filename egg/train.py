@@ -17,10 +17,11 @@ content = np.loadtxt(file,delimiter=",",dtype="str")
 toxic = [] # list
 for i in range(len(content)):
     toxic.append( int(content[i][1]) )
+toxic = np.array(toxic) # turn list into array
 
 # making model
 model = keras.Sequential(
-    [
+    [   # modify there
         layers.Flatten(input_shape = (70,325) ),
         layers.Dense(128, activation="relu" ),
         layers.Dense(32, activation="relu" ),
@@ -33,3 +34,9 @@ optimizers = tf.keras.optimizers.Adam(learning_rate=0.01) # adjust lr
 model.compile(optimizer = optimizers,
             loss = 'sparse_categorical_crossentropy',
             metrics=['accuracy'])
+
+# train model
+model.fit(onehot,toxic,epochs=1,shuffle=True,batch_size=20) # batch_size ==> 20% data
+
+loss,acc = model.evaluate(onehot,toxic)
+print(loss,acc)
