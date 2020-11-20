@@ -14,7 +14,22 @@ onehot = data["onehots"]
 file = open("../../source_file/csci_data/SR-ARE-train/names_labels.txt","r")
 content = np.loadtxt(file,delimiter=",",dtype="str")
 
-toxic = []
+toxic = [] # list
 for i in range(len(content)):
     toxic.append( int(content[i][1]) )
-print(toxic)
+
+# making model
+model = keras.Sequential(
+    [
+        layers.Flatten(input_shape = (70,325) ),
+        layers.Dense(128, activation="relu" ),
+        layers.Dense(32, activation="relu" ),
+        layers.Dense(2, activation="softmax" ),
+    ]
+)
+#    for loss function ( need to del)
+
+optimizers = tf.keras.optimizers.Adam(learning_rate=0.01) # adjust lr
+model.compile(optimizer = optimizers,
+            loss = 'sparse_categorical_crossentropy',
+            metrics=['accuracy'])
