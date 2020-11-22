@@ -3,13 +3,13 @@ import pickle
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
-
-file = open("/home/kenny/tf/SR-ARE-test/names_onehots.pickle","rb")
+# "/home/kenny/tf/SR-ARE-train/names_onehots.pickle"
+file = open("../../source_file/csci_data/SR-ARE-train/names_onehots.pickle","rb")
 data = pickle.load(file)
 
 onehot = data["onehots"]
-
-file = open("/home/kenny/tf/SR-ARE-test/names_labels.txt","r")
+#"/home/kenny/tf/SR-ARE-train/names_labels.txt"
+file = open("../../source_file/csci_data/SR-ARE-train/names_labels.txt","r")
 content = np.loadtxt(file,delimiter=",",dtype="str")
 
 toxic = [] # list
@@ -28,10 +28,22 @@ for i in range(len(toxic)):
 
 train = []
 label = []
+
+# pos_index = [1,5,6,4,8,9]
+# for ele in pos_index ==> 1,5,6,4,8,9
+# for i in range(len(toxic)): ==> 0,1,2,3,4,5
+
 for ele in pos_index:
+    # append pos element
     train.append(onehot[ele])
+    label.append(toxic[ele])
+    # append neg element
+    neg_num = np.random.choice(neg_index)
+    train.append(onehot[neg_num])
+    label.append(toxic[neg_num])
 
-
+train = np.array(train)
+label = np.array(label)
 
 model = keras.Sequential(
     [
@@ -51,7 +63,7 @@ model.compile(optimizer = optimizers,
             metrics=['accuracy'])
 
 # train model
-model.fit(onehot,toxic,batch_size=20,epochs=5,shuffle=True) # batch_size ==> 20% data
+model.fit(train,label,batch_size=20,epochs=5,shuffle=True) # batch_size ==> 20% data
 
 model.save("model/model.save")
 loss,acc = model.evaluate(onehot,toxic)
