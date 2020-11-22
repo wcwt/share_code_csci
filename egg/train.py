@@ -17,26 +17,21 @@ for i in range(len(content)):
     toxic.append( int(content[i][1]) )
 toxic = np.array(toxic)
 
-onehot_p = []
-onehot_n = []
+neg_index = []
+pos_index = []
 
-for i in range( len(toxic) ):
-    if toxic[i] == 1:
-        onehot_p.append(onehot[i])
+for i in range(len(toxic)):
     if toxic[i] == 0:
-        onehot_n.append(onehot[i])
+        neg_index.append(i)
+    else:
+        pos_index.append(i)
 
-onehot_p = np.array(onehot_p)
-toxic_p = np.zeros(len(onehot_p)) + 1
-onehot_n = np.array(onehot_n)
-toxic_n = np.zeros(len(onehot_n)) + 0
+train = []
+label = []
+for ele in pos_index:
+    train.append(onehot[ele])
 
-for i in range(6):
-    onehot_p = np.append(onehot_p,onehot_p,axis=0)
-    toxic_p = np.append(toxic_p,toxic_p,axis=0)
 
-onehot = np.append(onehot_p,onehot_n,axis=0)
-toxic = np.append(toxic_p,toxic_n,axis=0)
 
 model = keras.Sequential(
     [
