@@ -66,5 +66,5 @@ model.compile(optimizer = optimizers,
 model.fit(train,label,batch_size=20,epochs=5,shuffle=True) # batch_size ==> 20% data
 
 model.save("model/model.save")
-loss,acc = model.evaluate(onehot,toxic)
+loss,acc = model.evaluate(onehot,toxic) # count error for human know only
 print(loss,acc)
